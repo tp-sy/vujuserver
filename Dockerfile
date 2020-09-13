@@ -5,5 +5,3 @@ WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
-RUN useradd appuser && chown -R appuser /code
-USER appuser
