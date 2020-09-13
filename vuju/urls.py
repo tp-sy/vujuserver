@@ -7,4 +7,6 @@ urlpatterns = [
     path('login', views.user_login, name='userlogin'),
     path('order', views.order, name='order'),
     path('received', views.received_order, name='receivedproduct'),
+    path('songs/upcoming', views.get_upcoming_songs, name='upcomingsongs'),
+    path('songs/request', views.request_song, name='requestsong'),
 ]

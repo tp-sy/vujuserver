@@ -10,11 +10,12 @@ class Product(models.Model):
 
 
 class Song(models.Model):
-    song_id = models.IntegerField()
-    song_name = models.CharField(max_length=100)
+    song_id = models.IntegerField(default=0)
+    tstamp = models.CharField(max_length=5, null=True)
+    user_id = models.CharField(max_length=10, null=True)
 
     def __str__(self):
-        return f"{self.song_id}:{self.song_name}"
+        return f"{self.song_id} - {self.tstamp}"
 
 class UserInfo(models.Model):
     user_id = models.CharField(max_length=10)
@@ -22,4 +23,4 @@ class UserInfo(models.Model):
     present = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"User {self.user_id}, status: {self.order_status}"
+        return f"User {self.user_id}, status: {self.order_status}, present: {self.present}"
