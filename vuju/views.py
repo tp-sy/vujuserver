@@ -7,7 +7,7 @@ from .models import UserInfo, Product, Song
 from datetime import datetime, timedelta
 
 USERID = "user_id"
-ORDERID = "order_id"
+ORDERID = "product_id"
 SONGID = "song_id"
 TIMESTAMP = "time"
 
@@ -22,6 +22,7 @@ def user_login(request):
 def order(request):
     uid = request.GET.get(USERID)
     productid = request.GET.get(ORDERID)
+    print(productid, type(productid))
     if not list(Product.objects.filter(drink_id__iexact=productid)):
         return HttpResponseNotFound("None")
     user = get_object_or_404(UserInfo,
