@@ -1,7 +1,7 @@
 import pytz
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse, Http404
 from .models import UserInfo, Product, Song
 
 from datetime import datetime, timedelta
@@ -19,14 +19,26 @@ def user_login(request):
     uinfo.save()
     return HttpResponse("Ok")
 
+def get_all_users(request):
+    users = UserInfo.objects.all()
+    print(users)
+    data = {'results': []}
+    for user in users:
+        data['results'].append(
+            {
+                'user_id': user.user_id,
+                'order_status': user.order_status,
+                'present': user.present
+            }
+        )
+    return JsonResponse(data)
+
 def order(request):
     uid = request.GET.get(USERID)
     productid = request.GET.get(ORDERID)
-    print(productid, type(productid))
-    if not list(Product.objects.filter(drink_id__iexact=productid)):
-        return HttpResponseNotFound("None")
     user = get_object_or_404(UserInfo,
                              user_id__iexact=uid)
+    get_object_or_404(Product, drink_id__iexact=productid)
     user.order_status = productid
     user.save()
     return HttpResponse("Ok")
@@ -44,7 +56,7 @@ def request_song(request):
     tstamp = request.GET.get(TIMESTAMP)
     get_object_or_404(UserInfo, user_id__iexact=uid)
     if list(Song.objects.filter(tstamp__iexact=tstamp)):
-        return HttpResponseNotFound("Time slot already taken")
+        raise Http404
     song = Song(song_id=sid, tstamp=tstamp, user_id=uid)
     song.save()
     return HttpResponse("Ok")
