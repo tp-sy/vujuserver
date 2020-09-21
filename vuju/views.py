@@ -19,9 +19,20 @@ def user_login(request):
     uinfo.save()
     return HttpResponse("Ok")
 
+def get_user(request):
+    uid = request.GET.get(USERID)
+    uinfo = get_object_or_404(UserInfo,
+                              user_id__iexact=uid)
+    data = {'results': {
+                'user_id': uinfo.user_id,
+                'order_id': uinfo.order_status,
+                'present': uinfo.present
+                }}
+    print(data)
+    return JsonResponse(data)
+
 def get_all_users(request):
     users = UserInfo.objects.all()
-    print(users)
     data = {'results': []}
     for user in users:
         data['results'].append(
