@@ -12,3 +12,9 @@
     
     # Requests a song
     /otit32/songs/request?user_id=<userid|str>&song_id=<songid|int>&time=<hour:minute|str>
+
+    # Get all users
+    /otit32/all_users
+
+    # Get info for one user
+    /otit32/user?user_id=<userid|str>
