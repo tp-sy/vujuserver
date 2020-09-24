@@ -10,6 +10,7 @@ USERID = "user_id"
 ORDERID = "product_id"
 SONGID = "song_id"
 TIMESTAMP = "time"
+FREE_DRINKS = [11,10,9,8,0]
 
 def user_login(request):
     uid = request.GET.get(USERID)
@@ -26,7 +27,8 @@ def get_user(request):
     data = {'results': {
                 'user_id': uinfo.user_id,
                 'order_id': uinfo.order_status,
-                'present': uinfo.present
+                'present': uinfo.present,
+                'drink_count': uinfo.drink_count
                 }}
     print(data)
     return JsonResponse(data)
@@ -39,7 +41,8 @@ def get_all_users(request):
             {
                 'user_id': user.user_id,
                 'order_status': user.order_status,
-                'present': user.present
+                'present': user.present,
+                'drink_count': user.drink_count
             }
         )
     return JsonResponse(data)
@@ -50,6 +53,8 @@ def order(request):
     user = get_object_or_404(UserInfo,
                              user_id__iexact=uid)
     get_object_or_404(Product, drink_id__iexact=productid)
+    if productid not in FREE_DRINKS:
+        user.drink_count += 1
     user.order_status = productid
     user.save()
     return HttpResponse("Ok")
@@ -91,7 +96,7 @@ def get_upcoming_songs(request):
                 {
                     "song_id": song.song_id,
                     "song_time": song.tstamp,
-                    "user_id": song.user_id
+                    "user_id": song.user_id,
                 }
             )
     return JsonResponse(data)

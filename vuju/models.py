@@ -21,6 +21,7 @@ class UserInfo(models.Model):
     user_id = models.CharField(max_length=10)
     order_status = models.IntegerField(default=0)
     present = models.BooleanField(default=False)
+    drink_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"User {self.user_id}, status: {self.order_status}, present: {self.present}"
