@@ -10,7 +10,7 @@ USERID = "user_id"
 ORDERID = "product_id"
 SONGID = "song_id"
 TIMESTAMP = "time"
-FREE_DRINKS = [11,10,9,8,0]
+FREE_DRINKS = [11,10,9,8,1]
 
 def user_login(request):
     uid = request.GET.get(USERID)
