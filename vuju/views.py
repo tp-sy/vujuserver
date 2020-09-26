@@ -64,6 +64,7 @@ def received_order(request):
     user = get_object_or_404(UserInfo,
                              user_id__iexact=uid)
     user.order_status = 0
+    user.save()
     return HttpResponse("Ok")
 
 def request_song(request):
